@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ValidateService} from '../../services/validate.service';
+import {AuthService} from '../../services/auth.service';
 import {NgFlashMessageService} from 'ng-flash-messages'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-register',
@@ -14,7 +16,12 @@ export class RegisterComponent implements OnInit {
   email: String;
   password: String;
   
-  constructor(private validateService: ValidateService, private ngFlashMessageService: NgFlashMessageService) { }
+  constructor(
+    private validateService: ValidateService, 
+    private ngFlashMessageService: NgFlashMessageService,
+    private authService: AuthService,
+    private router: Router
+    ) { }
 
   ngOnInit() {
   }
@@ -39,7 +46,7 @@ export class RegisterComponent implements OnInit {
     }
 
     //Required Email
-    if(!this.validateService.validateEmail(user)) {
+    if(!this.validateService.validateEmail(user.email)) {
       this.ngFlashMessageService.showFlashMessage({
         messages: ['Please enter a valid email'],
         dismissible: true,
@@ -48,5 +55,26 @@ export class RegisterComponent implements OnInit {
       });
       return false;
     }
+
+    //Register User
+    this.authService.registerUser(user).subscribe(data => {
+      if(data.body['success']) {
+        this.ngFlashMessageService.showFlashMessage({
+          messages: ['You are now registered and can log in'],
+          dismissible: true,
+          timeout: false,
+          type: 'success'
+        });
+        this.router.navigate(['/login']);
+      } else {
+        this.ngFlashMessageService.showFlashMessage({
+          messages: ['Something went wrong.'],
+          dismissible: true,
+          timeout: false,
+          type: 'danger'
+        });
+        this.router.navigate(['/register']);
+      }
+    });
   }
 }
