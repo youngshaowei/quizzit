@@ -14,6 +14,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
 import {ValidateService} from './services/validate.service';
+import {NgFlashMessagesModule} from 'ng-flash-messages';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgFlashMessagesModule.forRoot()
   ],
   providers: [ValidateService],
   bootstrap: [AppComponent]
