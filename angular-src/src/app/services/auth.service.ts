@@ -20,4 +20,13 @@ export class AuthService {
       observe: 'response'
     }).pipe(map((res:HttpResponse<JSON>)=> res));
   }
+
+  authenticateUser(user){
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3500/users/authenticate', user, {
+      headers: headers,
+      observe: 'response'
+    }).pipe(map((res:HttpResponse<JSON>)=> res));
+  }
 }
