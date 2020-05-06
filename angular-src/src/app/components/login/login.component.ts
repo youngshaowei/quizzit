@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
     }
 
     this.authService.authenticateUser(user).subscribe(data => {
-      console.log(data);
       if(data.body['success']) {
+        console.log(data.body['user']);
         this.authService.storeUserData(data.body['token'], data.body['user']);
         this.ngFlashMessageService.showFlashMessage({
           messages: ['You are now logged in.'],
