@@ -61,16 +61,16 @@ export class RegisterComponent implements OnInit {
       if(data.body['success']) {
         this.ngFlashMessageService.showFlashMessage({
           messages: ['You are now registered and can log in'],
-          dismissible: true,
-          timeout: false,
+          dismissible: false,
+          timeout: 2000,
           type: 'success'
         });
         this.router.navigate(['/login']);
       } else {
         this.ngFlashMessageService.showFlashMessage({
           messages: ['Something went wrong.'],
-          dismissible: true,
-          timeout: false,
+          dismissible: false,
+          timeout: 2000,
           type: 'danger'
         });
         this.router.navigate(['/register']);
